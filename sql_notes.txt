@@ -1,0 +1,69 @@
+MariaDB [cs60902]> create table swiss_users(
+    -> UserID int NOT NULL AUTO_INCREMENT,
+    -> UserName varchar(255) NOT NULL,
+    -> UserPw varchar(255) NOT NULL,
+    -> Created DATETIME DEFAULT CURRENT_TIMESTAMP
+    -> PRIMARY KEY (UserID)
+    -> );
+
+   MariaDB [cs60902]> insert into swiss_users (UserName, UserPw) values ('Jadmin', 'Jm20240424!');
+
+MariaDB [cs60902]> create table conversation(
+    -> ConversationId int NOT NULL AUTO_INCREMENT,
+    -> Subject varchar(255),
+    -> User varchar(255),
+    -> Created DATETIME DEFAULT CURRENT_TIMESTAMP,
+    -> PRIMARY KEY (ConversationId),
+    -> FOREIGN KEY (User) REFERENCES swiss_users(UserName));
+
+MariaDB [cs60902]> insert into conversation (Subject, User) values ('First Test', 'Jadmin');
+
+MariaDB [cs60902]> create table swiss_replies(
+    -> ReplyId int NOT NULL AUTO_INCREMENT,
+    -> ConversationId int,
+    -> ReplyMessage varchar(1000),
+    -> Sender varchar(255),
+    -> Created DATETIME DEFAULT CURRENT_TIMESTAMP,
+    -> PRIMARY KEY (ReplyId),
+    -> FOREIGN KEY (ConversationId) REFERENCES conversation(ConversationId),
+    -> FOREIGN KEY (Sender) REFERENCES swiss_users(UserName)
+    -> );
+    
+MariaDB [cs60902]> insert into swiss_replies (ConversationId, ReplyMessage, Sender) values ('4', 'Replying to ConversationId 4 with TestUser', 'Jadmin');
+
+
+MariaDB [cs60902]> create table contact_swiss(
+    -> SubmissionId int NOT NULL AUTO_INCREMENT,
+    -> Title varchar(255),
+    -> Body varchar (1000),
+    -> Email varchar(255),
+    -> Phone varchar(255),
+    -> Fname varchar(255),
+    -> Lname varchar(255),
+    -> Created DATETIME DEFAULT CURRENT_TIMESTAMP,
+    -> PRIMARY KEY (SubmissionId));
+
+MariaDB [cs60902]> insert into contact_swiss (Title, Body, Email, Phone, Fname, Lname) values ('Testing Title', 'This is some text for the body to test', 'testemail@email.com', '123-456-7891', 'Timothy', 'Tester');
+
+MariaDB [cs60902]> create table swiss_announcements(
+    -> PostId int NOT NULL AUTO_INCREMENT,
+    -> Subject varchar(255),
+    -> Body varchar (1000),
+    -> Created DATETIME DEFAULT CURRENT_TIMESTAMP,
+    -> PRIMARY KEY (PostId)
+    -> );
+
+MariaDB [cs60902]> insert into swiss_announcements (Subject, Body) values ('TestTitle', 'This is the first announcement body post. Any information that all users will need to know, will be posted her.');
+
+//quick ref commands
+mysql -u cs60902 -p
+#90Xj$%?9$
+
+show databases;
+show tables;
+use cs60902;
+select * from lab3_data;
+
+UPDATE swiss_users SET Email= 'Swizzcheezguy@gmail.com' WHERE UserId = 10;
+ UPDATE swiss_users SET FirstName='Swissington' WHERE UserId = 10;
+ UPDATE swiss_users SET LastName='Cheese' WHERE UserId=10;
